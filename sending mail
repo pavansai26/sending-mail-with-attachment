@@ -1,0 +1,26 @@
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.mime.base import MIMEBase
+from email import encoders
+
+senderemail='aaaaaaaaaa@gmail.com'
+receivermail='aaaaaaaaaaaa@gmail.com'
+msg=MIMEMultipart()
+msg['from']='aaaaaaaaaaaaa@gmail.com'
+msg['to']  ='aaaaaaaaaaa@gmail.com'
+msg['subject']='hi how are you'
+body='wwhat are you doing'
+msg.attach(MIMEText(body,'plain'))
+filename='products.csv'
+attachment=open(filename,'r')
+p=MIMEBase('application','octet-stream')
+p.set_payload((attachment).read())
+encoders.encode_base64(p)
+p.add_header('Content-Disposition',"attachment;filename=%s" % filename)
+msg.attach(p)
+s=smtplib.SMTP('smtp.gmail.com',587)
+s.starttls()
+s.login(senderemail,'aaaaaaaa')
+text=msg.as_string()
+s.sendmail(senderemail,receivermail,text)
